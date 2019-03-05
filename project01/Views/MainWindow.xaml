@@ -1,0 +1,10 @@
+﻿<Window x:Class="project01.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:prism="http://prismlibrary.com/"
+        WindowStartupLocation="CenterScreen"
+        Title="ZipFile" Height="600" Width="900">
+    <Grid>
+        <ContentControl prism:RegionManager.RegionName="RegionModule"/>
+    </Grid>
+</Window>
