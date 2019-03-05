@@ -9,12 +9,12 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Column="0" Margin="2,50,2,2" HorizontalAlignment="Stretch">
-            <TextBlock Text="파일 위치 " FontSize="24" />
-            <TextBlock Text="{Binding ZipFilePath}" FontSize="20"/>
+            <TextBlock Text="파일 위치 " FontSize="16" />
+            <TextBlock Text="{Binding ZipFilePath}" FontSize="16"/>
         </StackPanel>
 
-        <StackPanel Grid.Column="1" Margin="2,100,2,2" HorizontalAlignment="Stretch">
-            <Button Command="{Binding ZipFileCommand}" FontSize="24"
+        <StackPanel Grid.Column="1" Margin="2,200,2,2" HorizontalAlignment="Stretch">
+            <Button Command="{Binding ZipFileCommand}" FontSize="18"
                     Content="압축풀기"/>
         </StackPanel>
 
