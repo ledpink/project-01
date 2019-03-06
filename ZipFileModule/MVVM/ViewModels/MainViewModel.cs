@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
+using System.Text;
 using Prism.Commands;
 using Prism.Mvvm;
 
@@ -57,9 +59,32 @@ namespace ZipFileModule.MVVM.ViewModels
 
         private void ParseTextFiles()
         {
+            string line;
+            List<string> lines = new List<string>();            
             foreach (var file in _tempSaveZipFiles)
-            {
-                var readFile = File.ReadAllLines(file.Value);
+            {                
+                using (StreamReader sr = new StreamReader(file.Value, Encoding.Default))
+                {
+                    bool output = false;
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        if (output)
+                        {
+                            var extract = line.Where(c => !char.IsWhiteSpace(c)).ToArray();
+                            var str = new string(extract);
+                            var result = str.Substring(0, str.IndexOf("="));
+
+                            lines.Add(result);
+                        }
+                        if (line.Contains("[OUTPUT]"))
+                        {
+                            output = true;
+                        }
+                    }
+                    _textParsing.Add(file.Key, lines);
+                    line = null;
+                    lines.Clear();
+                }
             }
         }
     }
