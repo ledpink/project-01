@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.IO.Compression;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -9,6 +10,7 @@ namespace ZipFileModule.MVVM.ViewModels
     public class MainViewModel : BindableBase
     {
         private Dictionary<string, string> _tempSaveZipFiles { get; set; } = new Dictionary<string, string>();
+        private Dictionary<string, List<string>> _textParsing { get; set; } = new Dictionary<string, List<string>>();
 
         public string ZipFilePath => @"C:\Users\super\Desktop\api_data_test"; // get, set  or  lamda??
         public string ExtractFilePath => @"C:\Users\super\Desktop\api_data_test_unzip";
@@ -24,7 +26,7 @@ namespace ZipFileModule.MVVM.ViewModels
         public MainViewModel()
         {
             Files = new List<string>();
-            ZipFileCommand = new DelegateCommand(ExecuteZipFile);
+           ZipFileCommand = new DelegateCommand(ExecuteZipFile);
         }
 
         private void ExecuteZipFile()
@@ -38,6 +40,26 @@ namespace ZipFileModule.MVVM.ViewModels
                 {
                     ZipFile.ExtractToDirectory(saveFile, ExtractFilePath);
                 }
+            }
+            ConverFilesToList();
+        }
+
+        private void ConverFilesToList()
+        {
+            System.IO.DirectoryInfo unzipFolder = new System.IO.DirectoryInfo(ExtractFilePath);
+            foreach (System.IO.FileInfo file in unzipFolder.GetFiles())
+            {
+                var fileName = file.Name.Substring(0, file.Name.Length - 4);
+                _tempSaveZipFiles.Add(fileName, file.FullName);
+            }
+            ParseTextFiles();
+        }
+
+        private void ParseTextFiles()
+        {
+            foreach (var file in _tempSaveZipFiles)
+            {
+                var readFile = File.ReadAllLines(file.Value);
             }
         }
     }
