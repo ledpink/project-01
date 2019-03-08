@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
@@ -7,6 +8,10 @@ using System.Text;
 
 namespace ZipFileModule
 {
+    /// <summary>
+    /// 압축된 enc파일들을 unzip, 추출된 dat파일들을 파싱 후 
+    /// 데이터는 Dictionary로 담아서 값을 돌려준다.
+    /// </summary>
     public class EncParsing
     {
         private readonly string _EQUAL_SIGN_ = "=";
@@ -15,6 +20,7 @@ namespace ZipFileModule
         private readonly string _START_ = "@START";
         private readonly string _encPath;
         private readonly string _datPath;
+        private DirectoryInfo _datFolder;
         private Dictionary<string, string> _saveDatFiles { get; set; } = new Dictionary<string, string>();
         private Dictionary<string, List<string>> _datFilesParsing { get; set; } = new Dictionary<string, List<string>>();
 
@@ -34,6 +40,7 @@ namespace ZipFileModule
             UnzipEncFiles();
             ConvertDatFilesToDictionary();
             ParseDatFiles();
+            DeleteDatFolder();
             return _datFilesParsing;
         }
 
@@ -42,6 +49,13 @@ namespace ZipFileModule
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Multiselect = true;
             openFileDialog.InitialDirectory = _encPath;
+            _datFolder = new DirectoryInfo(_datPath);
+
+            if (_datFolder.Exists == false)
+            {
+                _datFolder.Create();
+            }
+
             if (openFileDialog.ShowDialog() == true)
             {
                 foreach (string saveFile in openFileDialog.FileNames)
@@ -53,8 +67,7 @@ namespace ZipFileModule
 
         private void ConvertDatFilesToDictionary()
         {
-            var datFolder = new DirectoryInfo(_datPath);
-            foreach (FileInfo file in datFolder.GetFiles())
+            foreach (FileInfo file in _datFolder.GetFiles())
             {
                 var fileName = file.Name.Substring(0, file.Name.Length - 4);
                 _saveDatFiles.Add(fileName, file.FullName);
@@ -96,6 +109,11 @@ namespace ZipFileModule
                     _datFilesParsing.Add(datfile.Key, lines);
                 }
             }
+        }
+
+        private void DeleteDatFolder()
+        {
+            _datFolder.Delete(true);
         }
     }
 }
