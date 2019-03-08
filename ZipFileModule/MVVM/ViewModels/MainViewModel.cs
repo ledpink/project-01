@@ -27,6 +27,14 @@ namespace ZipFileModule.MVVM.ViewModels
         {
             var encParsing = EncParsing.Create(ZipFilePath, ExtractFilePath);
             var datFilesParsing = encParsing.Run();
+
+
+            foreach (var datFileParsing in datFilesParsing)
+            {
+                _files.Add(datFileParsing.Key);
+            }
+
+            Files = _files;
         }
     }
 }
