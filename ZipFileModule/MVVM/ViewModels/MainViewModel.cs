@@ -31,10 +31,13 @@ namespace ZipFileModule.MVVM.ViewModels
 
             foreach (KeyValuePair<string, string> record in parsing)
             {
+                var aaa = record.Key.ToString();
                 var commentParsingInputDictionary = encParsing.GetCommentParsing(record.Key, "[INPUT]");
                 var commentParsingInputDictionary2 = encParsing.GetCommentParsing(record.Key, "[OUTPUT]");
                 var commentParsingInputDictionary3 = encParsing.GetDatFileParsing(record.Key, "[INPUT]");
                 var commentParsingInputDictionary4 = encParsing.GetDatFileParsing(record.Key, "[OUTPUT]");
+
+                var bbb = commentParsingInputDictionary3.Keys.First();
             }
         }
     }
