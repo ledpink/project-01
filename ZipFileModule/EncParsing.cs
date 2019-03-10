@@ -43,9 +43,8 @@ namespace ZipFileModule
         public List<string> GetCommentParsing(string datFile, string type)
         {
             var datParsing = new List<string>();
-            var datFileContent = new List<string>();
+            var datFileContent = _datFilesParsing[datFile].ToList();
             int indexOfType = 0;
-            datFileContent = _datFilesParsing[datFile].ToList();
             datParsing.Add("/***********************************************************************");
             if (type == _OUTPUT_)
             {
@@ -66,8 +65,7 @@ namespace ZipFileModule
         public Dictionary<string, string> GetDatFileParsing(string datFile, string type)
         {
             var datParsing = new Dictionary<string, string>();
-            var datFileContent = new List<string>();
-            datFileContent = _datFilesParsing[datFile].ToList();
+            var datFileContent = _datFilesParsing[datFile].ToList();
             int indexOfType = datFileContent.IndexOf(type) + 1;
             foreach (string line in datFileContent.Skip(indexOfType))
             {
