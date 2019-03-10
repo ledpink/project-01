@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Prism.Commands;
 using Prism.Mvvm;
 
@@ -26,15 +27,15 @@ namespace ZipFileModule.MVVM.ViewModels
         private void ExecuteZipFile()
         {
             var encParsing = EncParsing.Create(ZipFilePath, ExtractFilePath);
-            var datFilesParsing = encParsing.Run();
+            var parsing = encParsing.Run();
 
-
-            foreach (var datFileParsing in datFilesParsing)
+            foreach (KeyValuePair<string, string> record in parsing)
             {
-                _files.Add(datFileParsing.Key);
+                var commentParsingInputDictionary = encParsing.GetCommentParsing(record.Key, "[INPUT]");
+                var commentParsingInputDictionary2 = encParsing.GetCommentParsing(record.Key, "[OUTPUT]");
+                var commentParsingInputDictionary3 = encParsing.GetDatFileParsing(record.Key, "[INPUT]");
+                var commentParsingInputDictionary4 = encParsing.GetDatFileParsing(record.Key, "[OUTPUT]");
             }
-
-            Files = _files;
         }
     }
 }
