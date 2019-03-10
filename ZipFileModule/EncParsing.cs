@@ -21,8 +21,8 @@ namespace ZipFileModule
         private readonly string _encPath;
         private readonly string _datPath;
         private DirectoryInfo _datFolder;
-        private Dictionary<string, string> _saveDatFiles { get; set; } = new Dictionary<string, string>();
-        private Dictionary<string, List<string>> _datFilesParsing { get; set; } = new Dictionary<string, List<string>>();
+        private Dictionary<string, string> _saveDatFiles = new Dictionary<string, string>();
+        private Dictionary<string, List<string>> _datFilesParsing = new Dictionary<string, List<string>>();
         private EncParsing(string encPath, string datPath)
         {
             _encPath = encPath;
@@ -65,8 +65,8 @@ namespace ZipFileModule
         }
         public Dictionary<string, string> GetDatFileParsing(string datFile, string type)
         {
-            Dictionary<string, string> datParsing = new Dictionary<string, string>();
-            List<string> datFileContent = new List<string>();
+            var datParsing = new Dictionary<string, string>();
+            var datFileContent = new List<string>();
             datFileContent = _datFilesParsing[datFile].ToList();
             int indexOfType = datFileContent.IndexOf(type) + 1;
             foreach (string line in datFileContent.Skip(indexOfType))
@@ -93,7 +93,7 @@ namespace ZipFileModule
         }
         private void UnzipEncFiles()
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
+            var openFileDialog = new OpenFileDialog();
             openFileDialog.Multiselect = true;
             openFileDialog.InitialDirectory = _encPath;
             _datFolder = new DirectoryInfo(_datPath);
@@ -120,10 +120,10 @@ namespace ZipFileModule
         }
         private void ParseDatFiles()
         {
-            foreach (var datfile in _saveDatFiles)
+            foreach (KeyValuePair<string, string> datfile in _saveDatFiles)
             {
                 string line;
-                List<string> lines = new List<string>();                
+                var lines = new List<string>();                
                 using (StreamReader sr = new StreamReader(datfile.Value, Encoding.Default))
                 {
                     while ((line = sr.ReadLine()) != null)
