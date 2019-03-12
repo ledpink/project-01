@@ -85,6 +85,14 @@ namespace ZipFileModule
                     var temp = result.Substring(_START_.Length + 1);
                     result = temp;
                 }
+                //string num = result.Substring(1);
+                //int chknum = 0;
+                //if (int.TryParse(num, out chknum))
+                //{
+                    //var temp = result.Insert(0, "D");
+                    //result = temp;
+                //}
+                //char.IsNumber(extract[0]);
                 datParsing.Add(result, str);
             }
             return datParsing;

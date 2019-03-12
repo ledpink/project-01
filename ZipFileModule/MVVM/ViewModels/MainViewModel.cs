@@ -39,6 +39,14 @@ namespace ZipFileModule.MVVM.ViewModels
 
                 var bbb = commentParsingInputDictionary3.Keys.First();
             }
+
+            var tempstring = "1saff";
+            if (int.TryParse(tempstring.Substring(0, 1), out int chknum))
+            {
+                
+                var ttemp = tempstring.Insert(0, "D");
+                tempstring = ttemp;
+            }
         }
     }
 }
